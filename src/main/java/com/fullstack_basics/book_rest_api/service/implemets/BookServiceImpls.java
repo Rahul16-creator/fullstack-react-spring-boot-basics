@@ -4,6 +4,9 @@ import java.util.List;
 import com.fullstack_basics.book_rest_api.model.Book;
 import com.fullstack_basics.book_rest_api.repository.BookRepository;
 import com.fullstack_basics.book_rest_api.service.BookService;
+
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,8 +48,15 @@ public class BookServiceImpls implements BookService {
 
     @Override
     public String deleteData(int id) {
-        bookRepository.deleteById(id);
-        return "Deleted Successfully";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            bookRepository.deleteById(id);
+            jsonObject.put("message", "Book deleted");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+       
+        return jsonObject.toString();
     }
 
 }
