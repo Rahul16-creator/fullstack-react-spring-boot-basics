@@ -4,7 +4,6 @@ import java.util.List;
 import com.fullstack_basics.book_rest_api.model.Book;
 import com.fullstack_basics.book_rest_api.repository.BookRepository;
 import com.fullstack_basics.book_rest_api.service.BookService;
-
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,6 +2,11 @@ package com.fullstack_basics.book_rest_api.controller;
 
 import com.fullstack_basics.book_rest_api.model.Book;
 import com.fullstack_basics.book_rest_api.service.BookService;
+
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,6 +25,8 @@ import java.util.*;
 @RequestMapping("/api/v1/book")
 public class BookController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(BookController.class);
+
     private BookService bookService;
 
     @Autowired
@@ -29,27 +36,37 @@ public class BookController {
 
     @GetMapping
     public ResponseEntity<List<Book>> findAll() {
+        LOGGER.info("executing findAll");
         return new ResponseEntity<>(bookService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Book> findById(@PathVariable int id) {
+        LOGGER.info("executing findById");
         return new ResponseEntity<>(bookService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Book> addData(@RequestBody Book book) {
+        LOGGER.info("executing addData");
         return new ResponseEntity<>(bookService.addData(book), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Book> updateData(@RequestBody Book book, @PathVariable int id) {
+        LOGGER.info("executing updateData");
         return new ResponseEntity<>(bookService.updateData(book, id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteData(@PathVariable int id) {
+        LOGGER.info("executing deleteData");
         return new ResponseEntity<>(bookService.deleteData(id), HttpStatus.OK);
     }
 
+    @GetMapping("/invalid")
+    public String invalid() {
+        LOGGER.info("executing invalid");
+        return "{'message', 'SOMETHING WENT WRONG'}";
+    }
 }
