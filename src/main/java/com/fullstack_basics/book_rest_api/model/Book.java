@@ -17,7 +17,7 @@ public class Book {
 	private String author;
 	private Long isbnNumber;
 	private Double price;
-	private String Language;
+	private String language;
 	
 	public String getTitle() {
 		return title;
@@ -44,10 +44,10 @@ public class Book {
 		this.price = price;
 	}
 	public String getLanguage() {
-		return Language;
+		return language;
 	}
 	public void setLanguage(String language) {
-		Language = language;
+		this.language = language;
 	}
 	
 	
