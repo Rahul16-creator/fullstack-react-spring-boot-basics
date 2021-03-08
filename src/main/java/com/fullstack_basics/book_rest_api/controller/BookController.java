@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,30 +36,35 @@ public class BookController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Book>> findAll() {
         LOGGER.info("executing findAll");
         return new ResponseEntity<>(bookService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Book> findById(@PathVariable int id) {
         LOGGER.info("executing findById");
         return new ResponseEntity<>(bookService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PreAuthorize(" hasRole('ROLE_ADMIN')")
     public ResponseEntity<Book> addData(@RequestBody Book book) {
         LOGGER.info("executing addData");
         return new ResponseEntity<>(bookService.addData(book), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Book> updateData(@RequestBody Book book, @PathVariable int id) {
         LOGGER.info("executing updateData");
         return new ResponseEntity<>(bookService.updateData(book, id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> deleteData(@PathVariable int id) {
         LOGGER.info("executing deleteData");
         return new ResponseEntity<>(bookService.deleteData(id), HttpStatus.OK);

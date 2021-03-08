@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -25,7 +24,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		User user = userRepository.findByEmail(email);
-		System.out.println(email+"-------------------"+user);
 		if (user == null) {
 			throw new UsernameNotFoundException("Email " + email + " not found");
 		}
@@ -37,15 +35,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
 		if (user.getRole().getName().equalsIgnoreCase("admin")) {
 			authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		} else {
+			authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 		}
-		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 		return authorities;
 	}
 
 	@Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
-
+	public PasswordEncoder passwordEncoder() {
+		return NoOpPasswordEncoder.getInstance();
+	}
 
 }
